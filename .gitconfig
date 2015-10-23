@@ -1,0 +1,7 @@
+[user]
+	name = fschl
+	email = friedaar@gmx.de
+[credential]
+	helper = cache
+[color]
+	ui = true
