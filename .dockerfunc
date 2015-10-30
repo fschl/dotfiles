@@ -33,6 +33,14 @@ relies_on() {
 	done
 }
 
+# Applications...
+
+bropages() {
+    docker run -it --rm \
+           fschl/bropages \
+           bro
+}
+
 chrome() {
 	# add flags for proxy if passed
 	local proxy=
@@ -80,6 +88,16 @@ eclipse() {
            fschl/eclipse-jdk7:latest
 }
 
+latex() {
+    del_stopped latex
+
+    docker run -it --rm \
+           --net host \
+           -v $(pwd):/usr/src/latex \
+           --workdir="/usr/src/latex" \
+           fschl/latex "$@"
+}
+
 pulseaudio() {
 	del_stopped pulseaudio
 
@@ -111,10 +129,4 @@ skype() {
            --name skype \
            --net host \
            fschl/skype
-}
-
-bro() {
-    docker run -it --rm \
-           fschl/bropages \
-           bro
 }
