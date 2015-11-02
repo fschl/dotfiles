@@ -79,7 +79,8 @@ eclipse() {
 	del_stopped eclipse
     docker run -it --rm \
            --net host \
-           -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
            -v $HOME/projects/java/workspace:/root/workspace \
            -v $HOME/Documents/WHZ/PTI615-OOSE:/root/workspace2 \
            -v $HOME/.eclipse/plugins:/opt/eclipse/plugins \
@@ -87,6 +88,14 @@ eclipse() {
            --name eclipse \
            fschl/eclipse-jdk7:latest
 }
+
+go() {
+    docker run -it --rm \
+           -e GO15VENDOREXPERIMENT=1 \
+           -v "$PWD":/usr/src/myapp \
+           -w /usr/src/myapp \
+           golang:1.5 go "$@"
+    }
 
 latex() {
     del_stopped latex
@@ -129,4 +138,21 @@ skype() {
            --name skype \
            --net host \
            fschl/skype
+}
+
+torbrowser() {
+	del_stopped torbrowser
+
+	docker run -d \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /tmp/.X11-unix:/tmp/.X11-unix \
+		-e DISPLAY=unix$DISPLAY \
+		-e GDK_SCALE \
+		-e GDK_DPI_SCALE \
+		--device /dev/snd \
+		--name torbrowser \
+		fschl/tor-browser
+
+	# exit current shell
+	exit 0
 }
