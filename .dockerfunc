@@ -35,10 +35,10 @@ relies_on() {
 
 # Applications...
 
-bropages() {
+bro() {
     docker run -it --rm \
            fschl/bropages \
-           bro
+           bro "$@"
 }
 
 chrome() {
@@ -82,7 +82,6 @@ eclipse() {
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -e DISPLAY=unix$DISPLAY \
            -v $HOME/projects/java/workspace:/root/workspace \
-           -v $HOME/Documents/WHZ/PTI615-OOSE:/root/workspace2 \
            -v $HOME/.eclipse/plugins:/opt/eclipse/plugins \
            -v $HOME/.eclipse/configuration:/opt/eclipse/configuration \
            --name eclipse \
@@ -95,7 +94,7 @@ go() {
            -v "$PWD":/usr/src/myapp \
            -w /usr/src/myapp \
            golang:1.5 go "$@"
-    }
+}
 
 latex() {
     del_stopped latex
@@ -144,14 +143,14 @@ torbrowser() {
 	del_stopped torbrowser
 
 	docker run -d \
-		-v /etc/localtime:/etc/localtime:ro \
-		-v /tmp/.X11-unix:/tmp/.X11-unix \
-		-e DISPLAY=unix$DISPLAY \
-		-e GDK_SCALE \
-		-e GDK_DPI_SCALE \
-		--device /dev/snd \
-		--name torbrowser \
-		fschl/tor-browser
+		   -v /etc/localtime:/etc/localtime:ro \
+		   -v /tmp/.X11-unix:/tmp/.X11-unix \
+		   -e DISPLAY=unix$DISPLAY \
+		   -e GDK_SCALE \
+		   -e GDK_DPI_SCALE \
+		   --device /dev/snd \
+		   --name torbrowser \
+		   fschl/tor-browser
 
 	# exit current shell
 	exit 0
