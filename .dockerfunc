@@ -52,7 +52,7 @@ chrome() {
 	# one day remove /etc/hosts bind mount when effing
 	# overlay support inotify, such bullshit
 	docker run -d \
-		   --memory 3gb \
+		   --memory 2gb \
 		   --net host \
 		   -v /etc/localtime:/etc/localtime:ro \
 		   -v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -77,6 +77,7 @@ chrome() {
 
 eclipse() {
 	del_stopped eclipse
+
     docker run -it --rm \
            --net host \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -124,8 +125,7 @@ skype() {
 	del_stopped skype
 
 	docker run -d \
-           -v /dev/shm:/dev/shm \
-           -v /etc/machine-id:/etc/machine-id \
+           -v /home/kani/Downloads:/root/skype/Downloads \
            -v /run/user/1000/pulse:/run/user/1000/pulse \
            -v /var/lib/dbus:/var/lib/dbus \
            -v ~/.pulse:/root/.pulse \

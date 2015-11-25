@@ -1,4 +1,4 @@
 # dotfiles
 
-some stuff that makes my linux life more portable. uses containers. strongly inspired by awesome work of @jfrazelle and @jpetazzo <3 
+some stuff that makes my linux life more portable and comfortable. uses containers. strongly inspired by awesome work of https://github.com/jfrazelle
 
