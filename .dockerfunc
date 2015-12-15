@@ -7,30 +7,30 @@
 # Helper Functions
 #
 dcleanup() {
-	docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
-	docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
+    docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
+    docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
 }
 
 del_stopped() {
-	local name=$1
-	local state=$(docker inspect --format "{{.State.Running}}" $name 2>/dev/null)
+    local name=$1
+    local state=$(docker inspect --format "{{.State.Running}}" $name 2>/dev/null)
 
-	if [[ "$state" == "false" ]]; then
-		docker rm $name
-	fi
+    if [[ "$state" == "false" ]]; then
+        docker rm $name
+    fi
 }
 
 relies_on() {
-	local containers=$@
+    local containers=$@
 
-	for container in $containers; do
-		local state=$(docker inspect --format "{{.State.Running}}" $container 2>/dev/null)
+    for container in $containers; do
+        local state=$(docker inspect --format "{{.State.Running}}" $container 2>/dev/null)
 
-		if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
-			echo "$container is not running, starting it for you."
-			$container
-		fi
-	done
+        if [[ "$state" == "false" ]] || [[ "$state" == "" ]]; then
+            echo "$container is not running, starting it for you."
+            $container
+        fi
+    done
 }
 
 # Applications...
@@ -42,51 +42,51 @@ bro() {
 }
 
 chrome() {
-	# add flags for proxy if passed
-	local proxy=
-	local map=
-	local args=$@
+    # add flags for proxy if passed
+    local proxy=
+    local map=
+    local args=$@
 
-	del_stopped chrome
+    del_stopped chrome
 
-	# one day remove /etc/hosts bind mount when effing
-	# overlay support inotify, such bullshit
-	docker run -d \
-		   --memory 2gb \
-		   --net host \
-		   -v /etc/localtime:/etc/localtime:ro \
-		   -v /tmp/.X11-unix:/tmp/.X11-unix \
-		   -e DISPLAY=unix$DISPLAY \
-		   -v $HOME/Downloads:/root/Downloads \
-		   -v $HOME/Pictures:/root/Pictures \
-		   -v $HOME/Torrents:/root/Torrents \
-		   -v $HOME/.chrome:/data \
-		   -v /dev/shm:/dev/shm \
-		   -v /etc/hosts:/etc/hosts \
-		   --device /dev/snd \
-		   --device /dev/dri \
-		   --device /dev/video0 \
-		   --device /dev/usb \
-		   --device /dev/bus/usb \
-		   --group-add audio \
-		   --group-add video \
-		   --name chrome \
-		   fschl/chrome --user-data-dir=/data --force-device-scale-factor=1 \
-		   --proxy-server="$proxy" --host-resolver-rules="$map" "$args"
+    # one day remove /etc/hosts bind mount when effing
+    # overlay support inotify, such bullshit
+    docker run -d \
+           --memory 2gb \
+           --net host \
+           -v /etc/localtime:/etc/localtime:ro \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           -v $HOME/Downloads:/root/Downloads \
+           -v $HOME/Pictures:/root/Pictures \
+           -v $HOME/Torrents:/root/Torrents \
+           -v $HOME/.chrome:/data \
+           -v /dev/shm:/dev/shm \
+           -v /etc/hosts:/etc/hosts \
+           --device /dev/snd \
+           --device /dev/dri \
+           --device /dev/video0 \
+           --device /dev/usb \
+           --device /dev/bus/usb \
+           --group-add audio \
+           --group-add video \
+           --name chrome \
+           fschl/chrome --user-data-dir=/data --force-device-scale-factor=1 \
+           --proxy-server="$proxy" --host-resolver-rules="$map" "$args"
 }
 
 eclipse() {
-	del_stopped eclipse
+    del_stopped eclipse
 
-    docker run -it --rm \
+    docker run -d \
            --net host \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -e DISPLAY=unix$DISPLAY \
-           -v $HOME/projects/java/workspace:/root/workspace \
+           -v $HOME/projects/java/workspace:/home/eclipse/workspace \
            -v $HOME/.eclipse/plugins:/opt/eclipse/plugins \
            -v $HOME/.eclipse/configuration:/opt/eclipse/configuration \
            --name eclipse \
-           fschl/eclipse-jdk7:latest
+           fschl/eclipse:latest
 }
 
 go() {
