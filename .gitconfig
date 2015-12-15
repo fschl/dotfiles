@@ -1,7 +1,21 @@
 [user]
-	name = fschl
-	email = fschl.code@gmail.com
+    name = Frieder Schlesier
+    email = fschl.code@gmail.com
+
+[github]
+    user = fschl
+
+    [merge]
+
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
+
+[diff]
+
+    # Detect copies as well as renames
+    renames = copies
+
 [credential]
-	helper = cache
+    helper = cache
 [color]
-	ui = true
+    ui = true
