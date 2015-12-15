@@ -97,6 +97,21 @@ go() {
            golang:1.5 go "$@"
 }
 
+
+icedove() {
+    del_stopped icedove
+
+    docker run -d \
+           -v /etc/localtime:/etc/localtime:ro \
+           -v $HOME/Downloads/:/root/Downloads \
+           -v $HOME/.thunderbird/:/root/.icedove \
+           -v $HOME/.gnupg/:/root/.gnupg \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           --name icedove \
+           fschl/icedove
+}
+
 latex() {
     del_stopped latex
 
@@ -107,25 +122,51 @@ latex() {
            fschl/latex "$@"
 }
 
-pulseaudio() {
-	del_stopped pulseaudio
+libreoffice(){
+    del_stopped libreoffice
 
-	docker run -d \
-		   -v /etc/localtime:/etc/localtime:ro \
-		   --device /dev/snd \
-		   -p 4713:4713 \
-		   --restart always \
-	       -v /var/run/dbus:/var/run/dbus \
-	       -v /etc/machine-id:/etc/machine-id \
-		   --name pulseaudio \
-		   fschl/pulseaudio
+    docker run -d \
+           -v /etc/localtime:/etc/localtime:ro \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           -v $HOME/Documents:/root/Documents \
+           -e GDK_SCALE \
+           -e GDK_DPI_SCALE \
+           --name libreoffice \
+           fschl/libreoffice
 }
 
-skype() {
-	del_stopped skype
+pulseaudio() {
+    del_stopped pulseaudio
 
-	docker run -d \
-           -v /home/kani/Downloads:/root/skype/Downloads \
+    docker run -d \
+           -v /etc/localtime:/etc/localtime:ro \
+           --device /dev/snd \
+           -p 4713:4713 \
+           --restart always \
+           --name pulseaudio \
+           fschl/pulseaudio
+}
+
+# pulseaudio() {
+#   del_stopped pulseaudio
+
+#   docker run -d \
+#          -v /etc/localtime:/etc/localtime:ro \
+#          --device /dev/snd \
+#          -p 4713:4713 \
+#          --restart always \
+#          -v /var/run/dbus:/var/run/dbus \
+#          -v /etc/machine-id:/etc/machine-id \
+#          --name pulseaudio \
+#          fschl/pulseaudio
+# }
+
+skype() {
+    del_stopped skype
+
+    docker run -d \
+           -v $HOME/Downloads:/root/skype/Downloads \
            -v /run/user/1000/pulse:/run/user/1000/pulse \
            -v /var/lib/dbus:/var/lib/dbus \
            -v ~/.pulse:/root/.pulse \
