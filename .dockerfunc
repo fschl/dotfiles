@@ -122,7 +122,7 @@ latex() {
            fschl/latex "$@"
 }
 
-libreoffice(){
+libreoffice() {
     del_stopped libreoffice
 
     docker run -d \
@@ -135,6 +135,21 @@ libreoffice(){
            --name libreoffice \
            fschl/libreoffice
 }
+
+# start from a directory which contains a openvpn config file named 'config.ovpn'
+# cert and key files should be in the same directory or relatively referencable
+# from the config file
+openvpn() {
+    del_stopped openvpn
+
+    docker run -it --rm \
+           --net host \
+           --device /dev/net/tun:/dev/net/tun \
+           --cap-add NET_ADMIN \
+           -v "$PWD":/etc/openvpn \
+           fschl/openvpn:latest config.ovpn
+}
+
 
 pulseaudio() {
     del_stopped pulseaudio
