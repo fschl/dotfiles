@@ -85,6 +85,7 @@ eclipse() {
            -v $HOME/projects/java/workspace:/home/eclipse/workspace \
            -v $HOME/.eclipse/plugins:/opt/eclipse/plugins \
            -v $HOME/.eclipse/configuration:/opt/eclipse/configuration \
+           -v $HOME/.sonar:/home/eclipse/.sonar \
            --name eclipse \
            fschl/eclipse:latest
 }
@@ -196,18 +197,18 @@ skype() {
 }
 
 torbrowser() {
-	del_stopped torbrowser
+    del_stopped torbrowser
 
-	docker run -d \
-		   -v /etc/localtime:/etc/localtime:ro \
-		   -v /tmp/.X11-unix:/tmp/.X11-unix \
-		   -e DISPLAY=unix$DISPLAY \
-		   -e GDK_SCALE \
-		   -e GDK_DPI_SCALE \
-		   --device /dev/snd \
-		   --name torbrowser \
-		   fschl/tor-browser
+    docker run -d \
+           -v /etc/localtime:/etc/localtime:ro \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           -e GDK_SCALE \
+           -e GDK_DPI_SCALE \
+           --device /dev/snd \
+           --name torbrowser \
+           fschl/tor-browser
 
-	# exit current shell
-	exit 0
+    # exit current shell
+    exit 0
 }
