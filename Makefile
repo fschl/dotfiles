@@ -12,3 +12,6 @@ dotfiles:
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/$$f; \
 	done
+
+bootstrap:
+	sh ./install.sh
