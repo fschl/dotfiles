@@ -212,3 +212,23 @@ torbrowser() {
     # exit current shell
     exit 0
 }
+
+vlc() {
+    del_stopped vlc
+
+    local args=$@
+
+    docker run -it \
+           -v "$args":/home/vlc \
+           -v /etc/localtime:/etc/localtime:ro \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -v /run/user/1000/pulse:/run/user/1000/pulse \
+           -v /var/lib/dbus:/var/lib/dbus \
+           -v ~/.pulse:/root/.pulse \
+           -e DISPLAY=unix$DISPLAY \
+           -e GDK_SCALE \
+           -e GDK_DPI_SCALE \
+           --device /dev/snd \
+           --name vlc \
+           fschl/vlc
+}

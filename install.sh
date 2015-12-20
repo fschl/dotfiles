@@ -8,17 +8,20 @@ USERNAME=fschl
 
 apt_sources() {
     cat <<-EOF > /etc/apt/sources.list
-deb http://ftp.de.debian.org/debian/ jessie main contrib non-free
-deb-src http://ftp.de.debian.org/debian/ jessie main contrib non-free
+deb http://ftp.de.debian.org/debian/ stable main contrib non-free
+deb-src http://ftp.de.debian.org/debian/ stable main contrib non-free
 
-deb http://security.debian.org/ jessie/updates main contrib non-free
-deb-src http://security.debian.org/ jessie/updates main contrib non-free
+deb http://security.debian.org/ stable/updates main contrib non-free
+deb-src http://security.debian.org/ stable/updates main contrib non-free
 
-# jessie-updates, previously known as 'volatile'
-deb http://ftp.de.debian.org/debian/ jessie-updates main contrib non-free
-deb-src http://ftp.de.debian.org/debian/ jessie-updates main contrib non-free
+# stable-updates, previously known as 'volatile'
+deb http://ftp.de.debian.org/debian/ stable-updates main contrib non-free
+deb-src http://ftp.de.debian.org/debian/ stable-updates main contrib non-free
+
+deb http://ftp.fr.debian.org/debian/ stable-proposed-updates main
+deb http://ftp.fr.debian.org/debian/ testing main
 EOF
-    
+
 }
 
 base_applications() {
@@ -41,10 +44,12 @@ base_applications() {
             gnupg-agent \
             gnupg-curl \
             grep \
+            htop \
             locales \
             make \
             mount \
             net-tools \
+            pulseaudio \
             rxvt-unicode-256color \
             ssh \
             sudo \
@@ -71,8 +76,18 @@ install_i3() {
             i3status \
             scrot \
             slim \
-            --install-no-recommends
-    
+            xorg \
+            --no-install-recommends
+}
+
+install_docker() {
+    adduser -aG docker "$USERNAME"
+
+    curl -sSL https://get.docker.com/ | sh
+
+    curl -SL https://github.com/docker/compose/releases/download/1.5.2/docker-compose-Linux-x86_64 \
+         -o /usr/bin/docker-compose
+    chmod +x /usr/bin/docker-compose
 }
 
 get_dotfiles() {
@@ -88,7 +103,7 @@ get_dotfiles() {
         cd "/home/$USERNAME"
         git clone https://github.com/fschl/dockerfiles.git "/home/$USERNAME/dockerfiles"
 
-        git clone https://github.com/fschl/.emacs.d.git "/home/$USERNAME/.emacs.d"        
+        git clone https://github.com/fschl/.emacs.d.git "/home/$USERNAME/.emacs.d"
     )
 }
 
@@ -96,6 +111,8 @@ main() {
     apt_sources
 
     base_applications
+
+    install_docker
 
     install_i3
 }
