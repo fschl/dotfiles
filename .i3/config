@@ -87,6 +87,9 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+# float some applications
+for_window [class="Tor Browser"] floating enable
+    
 # switch to workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
