@@ -217,6 +217,21 @@ torbrowser() {
     exit 0
 }
 
+
+transmission() {
+    del_stopped transmission
+
+    docker run -d \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v $HOME/Downloads:/transmission/download \
+        -v $HOME/.transmission:/transmission/config \
+        -p 9091:9091 \
+        -p 51413:51413 \
+        -p 51413:51413/udp \
+        --name transmission \
+        fschl/transmission
+    }
+
 vlc() {
     del_stopped vlc
 
