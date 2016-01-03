@@ -87,6 +87,8 @@ eclipse() {
            -v $HOME/.eclipse/configuration:/opt/eclipse/configuration \
            -v $HOME/.sonar:/home/eclipse/.sonar \
            fschl/eclipse:latest
+
+    exit 0;
 }
 
 go() {
@@ -110,6 +112,8 @@ icedove() {
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -e DISPLAY=unix$DISPLAY \
            fschl/icedove:latest
+
+    exit 0;
 }
 
 latex() {
