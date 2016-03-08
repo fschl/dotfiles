@@ -93,14 +93,9 @@ install_docker() {
 get_dotfiles() {
 
     (
-        cd "/home$USERNAME"
-
         git clone https://github.com/fschl/dotfiles.git "/home/$USERNAME/dotfiles"
-        cd "/home/$USERNAME/dotfiles"
+        cd "/home/$USERNAME/dotfiles" && make
 
-        make
-
-        cd "/home/$USERNAME"
         git clone https://github.com/fschl/dockerfiles.git "/home/$USERNAME/dockerfiles"
 
         git clone https://github.com/fschl/.emacs.d.git "/home/$USERNAME/.emacs.d"

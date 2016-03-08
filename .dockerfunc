@@ -91,12 +91,23 @@ eclipse() {
     exit 0;
 }
 
+gimp() {
+    del_stopped gimp
+
+    docker run -d \
+	       -v /etc/localtime:/etc/localtime:ro \
+	       -v /tmp/.X11-unix:/tmp/.X11-unix \
+	       -e DISPLAY=unix$DISPLAY \
+	       -v $HOME/Pictures:/root/Pictures \
+	       --name gimp \
+           fschl/gimp
+}
+
 go() {
-    docker run -it --rm \
-           -e GO15VENDOREXPERIMENT=1 \
+    docker run -i --rm \
            -v "$PWD":/usr/src/myapp \
            -w /usr/src/myapp \
-           golang:1.5 go "$@"
+           fschl/golang-dev:latest go "$@"
 }
 
 
