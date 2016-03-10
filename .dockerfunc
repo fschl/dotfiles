@@ -35,6 +35,30 @@ relies_on() {
 
 # Applications...
 
+android-studio() {
+    del_stopped android-studio
+
+    for dir in .studio-home .gradle .idea .android/avd; do
+        mkdir -p .docker-dev/$dir
+    done
+
+    CURRENT_DIR=`pwd`
+    docker run -it  \
+           --net=host \
+           --name android-studio \
+           --privileged \
+           -e DISPLAY \
+           -e GRADLE_USER_HOME='/workspace/.docker-dev/.gradle/home' \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -v $CURRENT_DIR:/workspace \
+           -v $CURRENT_DIR/.docker-dev/.studio-home:/home/developer/.AndroidStudio1.2 \
+           -v $CURRENT_DIR/.docker-dev/.android/avd:/home/developer/.android/avd \
+           fschl/astudio:latest \
+           /bin/studio
+
+#    exit 0;
+}
+
 bro() {
     docker run -it --rm \
            fschl/bropages \
@@ -192,6 +216,23 @@ pulseaudio() {
 #          --name pulseaudio \
 #          fschl/pulseaudio
 # }
+
+rstudio(){
+    del_stopped rstudio
+
+    #		-e QT_DEVICE_PIXEL_RATIO \
+
+    docker run -d \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -v $HOME/fastly-logs:/root/fastly-logs \
+        -v /dev/shm:/dev/shm \
+        -p 8787 \
+        -e DISPLAY=unix$DISPLAY \
+        --device /dev/dri \
+        --name rstudio \
+        rocker/rstudio
+}
 
 skype() {
     del_stopped skype
