@@ -12,4 +12,5 @@ alias di='docker images'
 alias dip="docker inspect -f '{{ .NetworkSettings.IPAddress }}'" # call with <container name> or ID
 alias dih="docker inspect -f '{{ .Config.Hostname }}'" # call with <container name> or ID
 alias dstats="docker stats "'$(sudo docker ps -aq)' # shows stats thingy for all containers
-
+alias drmsc="docker ps -a | grep Exited | awk '{print nil}' | xargs docker rm" # removes stopped containers
+alias drmdi="docker rmi "'$(docker images -q -f dangling=true)' # removes non-tagged images

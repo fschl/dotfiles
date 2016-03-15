@@ -39,7 +39,7 @@ bindsym $mod+d exec dmenu_run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-bindsym Ctrl+Shift+l exec i3lock -c 222222
+bindsym Ctrl+Shift+l exec fancy-i3lock
 
 # change focus
 bindsym $mod+j focus left
@@ -89,7 +89,7 @@ bindsym $mod+a focus parent
 
 # float some applications
 for_window [class="Tor Browser"] floating enable
-    
+
 # switch to workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
@@ -137,9 +137,9 @@ mode "resize" {
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
         bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym odiaeresis resize grow width 10 px or 10 ppt
+        bindsym i resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -178,7 +178,7 @@ assign [class="^Eclipse$"] 3
 assign [class="^Icedove$"] 4
 
 # startup programs
-exec --no-startup-id xrandr --output VGA1 --auto
 exec --no-startup-id xrandr --output LVDS1 --left-of VGA1 --auto
-exec --no-startup-id i3-msg 'exec iceweasel; rename workspace 1 to "1: web"'
-exec --no-startup-id i3-msg 'exec emacs24; rename workspace 2 to "2: emacs"; workspace 2'
+exec --no-startup-id xrandr --output VGA1 --auto
+exec --no-startup-id i3-msg 'exec iceweasel;'
+exec --no-startup-id i3-msg 'workspace 2; exec emacs24'

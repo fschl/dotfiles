@@ -53,10 +53,10 @@ android-studio() {
            -v $CURRENT_DIR:/workspace \
            -v $CURRENT_DIR/.docker-dev/.studio-home:/home/developer/.AndroidStudio1.2 \
            -v $CURRENT_DIR/.docker-dev/.android/avd:/home/developer/.android/avd \
-           fschl/astudio:latest \
+           fschl/android-studio:latest \
            /bin/studio
 
-#    exit 0;
+    #exit 0;
 }
 
 bro() {
@@ -119,11 +119,11 @@ gimp() {
     del_stopped gimp
 
     docker run -d \
-	       -v /etc/localtime:/etc/localtime:ro \
-	       -v /tmp/.X11-unix:/tmp/.X11-unix \
-	       -e DISPLAY=unix$DISPLAY \
-	       -v $HOME/Pictures:/root/Pictures \
-	       --name gimp \
+           -v /etc/localtime:/etc/localtime:ro \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           -v $HOME/Pictures:/root/Pictures \
+           --name gimp \
            fschl/gimp
 }
 
@@ -223,15 +223,15 @@ rstudio(){
     #		-e QT_DEVICE_PIXEL_RATIO \
 
     docker run -d \
-        -v /etc/localtime:/etc/localtime:ro \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -v $HOME/fastly-logs:/root/fastly-logs \
-        -v /dev/shm:/dev/shm \
-        -p 8787 \
-        -e DISPLAY=unix$DISPLAY \
-        --device /dev/dri \
-        --name rstudio \
-        rocker/rstudio
+           -v /etc/localtime:/etc/localtime:ro \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -v $HOME/fastly-logs:/root/fastly-logs \
+           -v /dev/shm:/dev/shm \
+           -p 8787 \
+           -e DISPLAY=unix$DISPLAY \
+           --device /dev/dri \
+           --name rstudio \
+           rocker/rstudio
 }
 
 skype() {
@@ -274,15 +274,15 @@ transmission() {
     del_stopped transmission
 
     docker run -d \
-        -v /etc/localtime:/etc/localtime:ro \
-        -v $HOME/Downloads:/transmission/download \
-        -v $HOME/.transmission:/transmission/config \
-        -p 9091:9091 \
-        -p 51413:51413 \
-        -p 51413:51413/udp \
-        --name transmission \
-        fschl/transmission
-    }
+           -v /etc/localtime:/etc/localtime:ro \
+           -v $HOME/Downloads:/transmission/download \
+           -v $HOME/.transmission:/transmission/config \
+           -p 9091:9091 \
+           -p 51413:51413 \
+           -p 51413:51413/udp \
+           --name transmission \
+           fschl/transmission
+}
 
 vlc() {
     del_stopped vlc
