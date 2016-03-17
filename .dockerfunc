@@ -38,11 +38,11 @@ relies_on() {
 android-studio() {
     del_stopped android-studio
 
+    CURRENT_DIR="/home/fschl/projects/android"
     for dir in .studio-home .gradle .idea .android/avd; do
-        mkdir -p .docker-dev/$dir
+        mkdir -p $CURRENT_DIR/.docker-dev/$dir
     done
 
-    CURRENT_DIR=`pwd`
     docker run -it  \
            --net=host \
            --name android-studio \
@@ -50,6 +50,7 @@ android-studio() {
            -e DISPLAY \
            -e GRADLE_USER_HOME='/workspace/.docker-dev/.gradle/home' \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -v $CURRENT_DIR/projects:/home/developer/AndroidStudioProjects \
            -v $CURRENT_DIR:/workspace \
            -v $CURRENT_DIR/.docker-dev/.studio-home:/home/developer/.AndroidStudio1.2 \
            -v $CURRENT_DIR/.docker-dev/.android/avd:/home/developer/.android/avd \
