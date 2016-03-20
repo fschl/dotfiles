@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# execute go command inside a container
+#
+
+set -o pipefail
+set -x
+
+source $HOME/.dockerfunc
+
+# TODO: increase performance for go commands
+# check directory calling from
+# USE LABELS https://docs.docker.com/engine/userguide/labels-custom-metadata/#query-labels
+# run a go-dev container for that go application
+# check if maybe there is already a container running for this app
+# if so, just docker exec the command inside this app container
+
+go fmt $@

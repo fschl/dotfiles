@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# execute go command inside a container
+#
+
+set -o pipefail
+
+source $HOME/.dockerfunc
+
+go $@
