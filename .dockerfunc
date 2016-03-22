@@ -152,6 +152,22 @@ icedove() {
     exit 0;
 }
 
+inkscape() {
+    del_stopped inkscape
+
+    # -v $HOME/.Xauthority:/home/inkscaper/.Xauthority \
+
+    docker run --rm \
+           --name="inkscape" \
+           -v $HOME/Pictures:/home/inkscaper/Pictures \
+           -v $HOME/Documents:/home/inkscaper/Documents \
+           -u inkscaper \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           --net=host \
+           fschl/inkscape:latest
+}
+
 latex() {
     del_stopped latex
 
