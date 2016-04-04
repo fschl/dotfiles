@@ -250,6 +250,17 @@ rstudio(){
            --name rstudio \
            rocker/rstudio
 }
+scenebuilder() {
+    del_stopped scenebuilder
+
+    docker run -d \
+           --net host \
+           --name="scenebuilder" \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           -v $HOME/projects/java/workspace:/home/eclipse/workspace \
+           fschl/scenebuilder:latest "$@"
+}
 
 skype() {
     del_stopped skype
