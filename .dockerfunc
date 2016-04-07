@@ -7,6 +7,8 @@
 # Helper Functions
 #
 dcleanup() {
+
+    # TODO: add list of non-disposable containers (eclipse, intelliJ, ...?)
     docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
     docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
 }
@@ -36,24 +38,31 @@ relies_on() {
 # Applications...
 
 android-studio() {
-    del_stopped android-studio
 
-    CURRENT_DIR="/home/fschl/projects/android"
-    for dir in .studio-home .gradle .idea .android/avd; do
-        mkdir -p $CURRENT_DIR/.docker-dev/$dir
-    done
+    ANDROID_DIR="/home/fschl/projects/android"
+    # for dir in .studio-home .gradle .idea .android/avd; do
+    #     mkdir -p $ANDROID_DIR/.docker-dev/$dir
+    # done
 
+    # TODO: mount /home/developer/android-sdk-linux
+    # docker start android-studio
+
+    ## You don't want to remove the container between uses, because many things installed
+    ## via the _Android Studio GUI_ are only stored in the container.
+    # del_stopped android-studio
     docker run -it  \
            --net=host \
            --name android-studio \
            --privileged \
            -e DISPLAY \
+           -e SHELL=/bin/bash \
            -e GRADLE_USER_HOME='/workspace/.docker-dev/.gradle/home' \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
-           -v $CURRENT_DIR/projects:/home/developer/AndroidStudioProjects \
-           -v $CURRENT_DIR:/workspace \
-           -v $CURRENT_DIR/.docker-dev/.studio-home:/home/developer/.AndroidStudio1.2 \
-           -v $CURRENT_DIR/.docker-dev/.android/avd:/home/developer/.android/avd \
+           -v /dev/bus/usb:/dev/bus/usb \
+           -v $ANDROID_DIR/projects:/home/developer/AndroidStudioProjects \
+           -v $ANDROID_DIR:/workspace \
+           -v $ANDROID_DIR/.docker-dev/.studio-home:/home/developer/.AndroidStudio1.2 \
+           -v $ANDROID_DIR/.docker-dev/.android/avd:/home/developer/.android/avd \
            fschl/android-studio:latest \
            /bin/studio
 
