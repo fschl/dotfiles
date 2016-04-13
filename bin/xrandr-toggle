@@ -227,12 +227,12 @@ class RandRStateMachine(object):
   def NextState(self):
     # if we have a clone, then next pair to the left
     if self.IsClone():
-      logging.info('CLONE -> PAIR_LEFT')
-      self.SetPairExtLeft()
-    # if we have a pair to the left, then next pair to the right
-    elif self.IsPairExtLeft():
-      logging.info('PAIR_LEFT -> PAIR_RIGHT')
+      logging.info('CLONE -> PAIR_RIGHT')
       self.SetPairExtRight()
+    # if we have a pair to the left, then next pair to the right
+    elif self.IsPairExtRight():
+      logging.info('PAIR_RIGHT -> PAIR_LEFT')
+      self.SetPairExtLeft()
     # else, just set cloning
     else:
       logging.info('UNKNOWN (or PAIR_RIGHT) -> CLONE')
