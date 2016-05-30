@@ -50,7 +50,6 @@ base_applications() {
             mount \
             net-tools \
             pulseaudio \
-            rxvt-unicode-256color \
             ssh \
             sudo \
             tar \
@@ -74,6 +73,7 @@ install_i3() {
             i3 \
             i3lock \
             i3status \
+            rxvt-unicode-256color \
             scrot \
             slim \
             xorg \
