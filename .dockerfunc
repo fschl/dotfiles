@@ -207,6 +207,16 @@ libreoffice() {
            fschl/libreoffice
 }
 
+netbeans() {
+    docker run -it \
+           -e DISPLAY=$DISPLAY \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -v $HOME/.netbeans-docker:/home/developer/.netbeans \
+           -v $HOME/projects/java/workspace:/home/developer/NetBeansProjects \
+           -v $HOME/projects/java/workspace:/workspace \
+           fschl/netbeans:latest
+}
+
 # start from a directory which contains a openvpn config file named 'config.ovpn'
 # cert and key files should be in the same directory or relatively referencable
 # from the config file
