@@ -205,10 +205,14 @@ libreoffice() {
            -e GDK_DPI_SCALE \
            --name libreoffice \
            fschl/libreoffice
+
+    exit 0;
 }
 
 netbeans() {
+
     docker run -it \
+           --name netbeans \
            -e DISPLAY=$DISPLAY \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -v $HOME/.netbeans-docker:/home/developer/.netbeans \
@@ -262,8 +266,6 @@ pulseaudio() {
 rstudio(){
     del_stopped rstudio
 
-    #		-e QT_DEVICE_PIXEL_RATIO \
-
     docker run -d \
            -v /etc/localtime:/etc/localtime:ro \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -274,6 +276,8 @@ rstudio(){
            --device /dev/dri \
            --name rstudio \
            rocker/rstudio
+
+    exit 0;
 }
 
 scenebuilder() {
@@ -306,6 +310,8 @@ skype() {
            --name skype \
            --net host \
            fschl/skype
+
+    exit 0;
 }
 
 torbrowser() {
@@ -321,8 +327,7 @@ torbrowser() {
            --name torbrowser \
            fschl/tor-browser
 
-    # exit current shell
-    exit 0
+    exit 0;
 }
 
 

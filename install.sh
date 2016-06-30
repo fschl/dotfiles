@@ -18,13 +18,16 @@ deb-src http://security.debian.org/ stable/updates main contrib non-free
 deb http://ftp.de.debian.org/debian/ stable-updates main contrib non-free
 deb-src http://ftp.de.debian.org/debian/ stable-updates main contrib non-free
 
-deb http://ftp.fr.debian.org/debian/ stable-proposed-updates main
-deb http://ftp.fr.debian.org/debian/ testing main
+deb http://ftp.de.debian.org/debian/ stable-proposed-updates main
+deb http://ftp.de.debian.org/debian/ testing main
 EOF
 
 }
 
 base_applications() {
+
+    echo "update and installing baseapps..."
+
     apt-get update
     apt-get upgrade
 
@@ -60,6 +63,7 @@ base_applications() {
 
     install_i3
 
+    echo "... DONE... cleaning up\n\n"
     apt-get autoremove
     apt-get autoclean
     apt-get clean
@@ -67,6 +71,8 @@ base_applications() {
 }
 
 install_i3() {
+
+    echo "update and installing i3wm..."
     apt-get update
     apt-get install -y \
             feh \
@@ -78,16 +84,34 @@ install_i3() {
             slim \
             xorg \
             --no-install-recommends
+
+    echo "... DONE... cleaning up\n\n"
+    apt-get autoremove
+    apt-get autoclean
+    apt-get clean
 }
 
 install_docker() {
+
+    echo "installing docker from get.docker.com | sh..."
     adduser -aG docker "$USERNAME"
 
     curl -sSL https://get.docker.com/ | sh
 
-    curl -SL https://github.com/docker/compose/releases/download/1.5.2/docker-compose-Linux-x86_64 \
+}
+
+install_compose() {
+
+    VERS="1.7.1"
+    echo "installing docker-compose $VERS ... curling from github"
+
+    curl -SL https://github.com/docker/compose/releases/download/$VERS/docker-compose-Linux-x86_64 \
          -o /usr/bin/docker-compose
     chmod +x /usr/bin/docker-compose
+
+    echo "... done"
+
+    /usr/bin/docker-compose version
 }
 
 get_dotfiles() {
@@ -103,13 +127,24 @@ get_dotfiles() {
 }
 
 main() {
-    apt_sources
+    local cmd=$1
 
-    base_applications
+    if [[ -z "$cmd" ]]; then
+        apt_sources
 
-    install_docker
+        base_applications
 
-    install_i3
+        install_docker
+
+        install_i3
+    fi
+
+    if [[ $cmd == "compose" ]]; then
+        install_compose
+    elif [[ $cmd == "dotfiles" ]]; then
+        get_dotfiles
+    fi
+
 }
 
 main "$@"

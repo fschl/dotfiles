@@ -6,6 +6,7 @@ alias .....='cd ../../../..'
 alias ll='ls -ahlF'
 alias la='ls -Ah'
 alias l='ls -CF'
+alias feh='feh -d --scale-down'
 
 alias dps='docker ps -a'
 alias di='docker images'
