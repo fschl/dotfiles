@@ -61,12 +61,13 @@ base_applications() {
             zip \
             --no-install-recommends
 
-    install_i3
-
     echo "... DONE... cleaning up\n\n"
     apt-get autoremove
     apt-get autoclean
     apt-get clean
+
+    echo "... setting capslock to control"
+    sed -i "s/^XKBOPTIONS=.*/XKBOPTIONS=\"ctrl:nocaps\"/" /etc/default/keyboard
 
 }
 
