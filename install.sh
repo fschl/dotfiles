@@ -36,6 +36,7 @@ base_applications() {
             apt-transport-https \
             automake \
             bash-completion \
+            bmon \
             bzip2 \
             ca-certificates \
             cmake \
@@ -48,11 +49,13 @@ base_applications() {
             gnupg-curl \
             grep \
             htop \
+            iotop \
             locales \
             make \
             mount \
             net-tools \
             pulseaudio \
+            rsync \
             ssh \
             sudo \
             tar \
