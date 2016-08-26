@@ -7,6 +7,7 @@ alias ll='ls -ahlF'
 alias la='ls -Ah'
 alias l='ls -CF'
 alias feh='feh -d --scale-down'
+alias camshot='fswebcam -r 640x480 --jpeg 90 -F 3 -D 1 --no-banner'
 
 alias dps='docker ps -a'
 alias di='docker images'
