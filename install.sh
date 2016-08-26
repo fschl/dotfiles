@@ -74,12 +74,21 @@ base_applications() {
 
 }
 
+no_suspend() {
+    # https://wiki.debian.org/SystemdSuspendSedation
+    sudo sed -i "s/HandleLidSwitch=.*/HandleLidSwitch=ignore/" /etc/systemd/logind.conf
+    sudo sed -i "s/HandleLidSwitchDocked=.*/HandleLidSwitchDocked=ignore/" /etc/systemd/logind.conf
+    sudo systemctl restart systemd-logind.service
+}
+
+
 install_i3() {
 
-    echo "update and installing i3wm..."
+    echo "update and installing i3wm and some tools..."
     apt-get update
     apt-get install -y \
             feh \
+            fswebcam \
             i3 \
             i3lock \
             i3status \
@@ -93,6 +102,8 @@ install_i3() {
     apt-get autoremove
     apt-get autoclean
     apt-get clean
+
+    no_suspend
 }
 
 install_docker() {
