@@ -150,14 +150,20 @@ main() {
         base_applications
 
         install_docker
-
-        install_i3
     fi
 
     if [[ $cmd == "compose" ]]; then
         install_compose
     elif [[ $cmd == "dotfiles" ]]; then
         get_dotfiles
+    elif [[ $cmd == "go" ]]; then
+        install_golang
+    elif [[ $cmd == "goprojects" ]]; then
+        get_public_go_projects
+    elif [[ $cmd == "i3" ]]; then
+        install_i3
+    elif [[ $cmd == "odl" ]]; then
+        get_odl_projects
     fi
 
 }
