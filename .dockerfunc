@@ -345,22 +345,15 @@ transmission() {
            fschl/transmission
 }
 
-vlc() {
-    del_stopped vlc
-
-    local args=$@
+wireshark() {
+    del_stopped wireshark
 
     docker run -it \
-           -v "$args":/home/vlc \
            -v /etc/localtime:/etc/localtime:ro \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
-           -v /run/user/1000/pulse:/run/user/vlc/pulse \
-           -v /var/lib/dbus:/var/lib/dbus \
-           -v ~/.pulse:/root/.pulse \
+           -v $(pwd):/home/wireshark \
            -e DISPLAY=unix$DISPLAY \
-           -e GDK_SCALE \
-           -e GDK_DPI_SCALE \
-           --device /dev/snd \
-           --name vlc \
-           fschl/vlc
+           --name wireshark \
+           jess/wireshark
+
 }
