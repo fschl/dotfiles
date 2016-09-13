@@ -69,6 +69,18 @@ android-studio() {
     #exit 0;
 }
 
+ant() {
+    local args=$@
+    local cur_dir=$(pwd)
+    local targetmount=$(basename $cur_dir)
+
+    docker run -it --rm \
+           -v $(pwd):/src/$targetmount \
+           -w /src/$targetmount \
+           fschl/ant \
+           "$args"
+}
+
 bro() {
     docker run -it --rm \
            fschl/bropages \
@@ -180,6 +192,25 @@ inkscape() {
            fschl/inkscape:latest
 
     exit 0;
+}
+
+java() {
+    local args=$@
+    local cur_dir=$(pwd)
+    local PROJECT=$(basename $cur_dir)
+
+    del_stopped java_$PROJECT
+
+    docker run -it \
+           --name="java_$PROJECT" \
+           -v $(pwd):/src/$PROJECT \
+           -w /src/$PROJECT \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           --net=host \
+           openjdk:8 \
+    bash -c "$args"
+
 }
 
 latex() {
