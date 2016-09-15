@@ -77,8 +77,8 @@ ant() {
     docker run -it --rm \
            -v $(pwd):/src/$targetmount \
            -w /src/$targetmount \
-           fschl/ant \
-           "$args"
+           fschl/antpp \
+           bash -c "$args"
 }
 
 bro() {
@@ -131,10 +131,36 @@ eclipse() {
            -v $HOME/projects/java/workspace:/home/eclipse/workspace \
            -v $HOME/.eclipse/plugins:/opt/eclipse/plugins \
            -v $HOME/.eclipse/configuration:/opt/eclipse/configuration \
-           -v $HOME/.sonar:/home/eclipse/.sonar \
+           -v $HOME/.eclipse/sonar:/home/eclipse/.sonar \
            fschl/eclipse:latest
 
-    exit 0;
+#    exit 0;
+}
+
+eneon() {
+    del_stopped eclipse_neon
+
+           # -v $HOME/.eclipse_neon/plugins:/opt/eclipse/plugins \
+           # -v $HOME/.eclipse_neon/configuration:/opt/eclipse/configuration \
+           # -v $HOME/.eclipse_neon/sonar:/home/eclipse/.sonar \
+    docker run -it \
+           --net host \
+           --name="eclipse_neon" \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           -v $HOME/projects/java/workspace:/home/eclipse/workspace \
+           -v $HOME/dockerfiles/eclipse/eclipse.ini:/opt/eclipse/eclipse.ini:ro \
+		   -v /var/run/docker.sock:/var/run/docker.sock \
+           -v $HOME/.eclipse_neon/eclipse:/home/elipse/.eclipse/ \
+           -v $HOME/.eclipse_neon/plugins:/opt/eclipse/plugins/ \
+           -v $HOME/.eclipse_neon/configuration:/opt/eclipse/configuration \
+		   -v $(which docker):/bin/docker \
+           --device /dev/video0 \
+           --group-add audio \
+           --group-add video \
+           fschl/eclipse:neon
+
+#    exit 0;
 }
 
 gimp() {
