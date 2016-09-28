@@ -266,6 +266,22 @@ libreoffice() {
     exit 0;
 }
 
+memo() {
+    del_stopped memo_standalone
+
+    docker run -it \
+           --name memo_standalone \
+           --net host \
+           -v $HOME/Documents:/root/Documents \
+           -v $HOME/Downloads:/root/Downloads \
+           -v $HOME/.memo:/root/.memo \
+           -e DISPLAY=$DISPLAY \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           fschl/memo:latest
+
+    #exit 0;
+}
+
 netbeans() {
 
     docker run -it \
