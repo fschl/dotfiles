@@ -150,17 +150,17 @@ eneon() {
            -e DISPLAY=unix$DISPLAY \
            -v $HOME/projects/java/workspace:/home/eclipse/workspace \
            -v $HOME/dockerfiles/eclipse/eclipse.ini:/opt/eclipse/eclipse.ini:ro \
-		   -v /var/run/docker.sock:/var/run/docker.sock \
+           -v /var/run/docker.sock:/var/run/docker.sock \
            -v $HOME/.eclipse_neon/eclipse:/home/elipse/.eclipse/ \
            -v $HOME/.eclipse_neon/plugins:/opt/eclipse/plugins/ \
            -v $HOME/.eclipse_neon/configuration:/opt/eclipse/configuration \
-		   -v $(which docker):/bin/docker \
+           -v $(which docker):/bin/docker \
            --device /dev/video0 \
            --group-add audio \
            --group-add video \
            fschl/eclipse:neon
 
-#    exit 0;
+    #    exit 0;
 }
 
 gimp() {
@@ -193,6 +193,7 @@ icedove() {
            --name="icedove" \
            -v /etc/localtime:/etc/localtime:ro \
            -v $HOME/Downloads/:/root/Downloads \
+           -v $HOME/Documents/:/root/Documents \
            -v $HOME/.thunderbird/:/root/.icedove \
            -v $HOME/.gnupg/:/root/.gnupg \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -235,7 +236,7 @@ java() {
            -e DISPLAY=unix$DISPLAY \
            --net=host \
            openjdk:8 \
-    bash -c "$args"
+           bash -c "$args"
 
 }
 
@@ -258,6 +259,7 @@ libreoffice() {
            -e DISPLAY=unix$DISPLAY \
            -v $HOME/Documents:/root/Documents \
            -v $HOME/Pictures:/root/Pictures \
+           -v $HOME/Downloads:/root/Downloads \
            -e GDK_SCALE \
            -e GDK_DPI_SCALE \
            --name libreoffice \
