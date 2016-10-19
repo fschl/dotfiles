@@ -104,7 +104,6 @@ set $WS8 "8 pass"
 set $WS9 "9 misc"
 
 assign [class="^Iceweasel$"] $WS1
-assign [class=".*emacs.*"] $WS2
 assign [class="^Eclipse$"] $WS5
 assign [class=".*\ -\ Oracle\ VM\ Virtualbox$"] $WS5
 assign [class="^Icedove$"] $WS4
