@@ -13,12 +13,14 @@ esac
 HISTCONTROL=ignoreboth
 
 # allow docker to use X
-xhost +local:root
+if [ -f /usr/bin/xhost ]; then
+    xhost +local:root
+fi
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{aliases,bash_prompt,functions,path,extra,exports,dockerfunc}; do
+for file in ~/.{aliases,bash_prompt,functions,path,dockerfunc,extra,exports}; do
 	[[ -r "$file" ]] && [[ -f "$file" ]] && source "$file"
 done
 unset file
