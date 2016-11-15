@@ -3,6 +3,8 @@
 # Bash wrappers for docker run commands
 # inspired by https://github.com/jfrazelle/dotfiles/ <3
 
+export DOCKER_REPO_PREFIX=fschl
+
 #
 # Helper Functions
 #
@@ -63,7 +65,7 @@ android-studio() {
            -v $ANDROID_DIR:/workspace \
            -v $ANDROID_DIR/.docker-dev/.studio-home:/home/developer/.AndroidStudio1.2 \
            -v $ANDROID_DIR/.docker-dev/.android/avd:/home/developer/.android/avd \
-           fschl/android-studio:latest \
+           ${DOCKER_REPO_PREFIX}/android-studio:latest \
            /bin/studio
 
     #exit 0;
@@ -77,13 +79,13 @@ ant() {
     docker run -it --rm \
            -v $(pwd):/src/$targetmount \
            -w /src/$targetmount \
-           fschl/antpp \
+           ${DOCKER_REPO_PREFIX}/antpp \
            bash -c "$args"
 }
 
 bro() {
     docker run -it --rm \
-           fschl/bropages \
+           ${DOCKER_REPO_PREFIX}/bropages \
            bro "$@"
 }
 
@@ -115,7 +117,7 @@ chrome() {
            --group-add audio \
            --group-add video \
            --name="chrome" \
-           fschl/chrome:latest --user-data-dir=/data
+           ${DOCKER_REPO_PREFIX}/chrome:latest --user-data-dir=/data
     #--force-device-scale-factor=1 \
     #--proxy-server="$proxy" --host-resolver-rules="$map" "$args"
 }
@@ -132,17 +134,17 @@ eclipse() {
            -v $HOME/.eclipse/plugins:/opt/eclipse/plugins \
            -v $HOME/.eclipse/configuration:/opt/eclipse/configuration \
            -v $HOME/.eclipse/sonar:/home/eclipse/.sonar \
-           fschl/eclipse:latest
+           ${DOCKER_REPO_PREFIX}/eclipse:latest
 
-#    exit 0;
+    #    exit 0;
 }
 
 eneon() {
     del_stopped eclipse_neon
 
-           # -v $HOME/.eclipse_neon/plugins:/opt/eclipse/plugins \
-           # -v $HOME/.eclipse_neon/configuration:/opt/eclipse/configuration \
-           # -v $HOME/.eclipse_neon/sonar:/home/eclipse/.sonar \
+    # -v $HOME/.eclipse_neon/plugins:/opt/eclipse/plugins \
+    # -v $HOME/.eclipse_neon/configuration:/opt/eclipse/configuration \
+    # -v $HOME/.eclipse_neon/sonar:/home/eclipse/.sonar \
     docker run -it \
            --net host \
            --name="eclipse_neon" \
@@ -158,7 +160,7 @@ eneon() {
            --device /dev/video0 \
            --group-add audio \
            --group-add video \
-           fschl/eclipse:neon
+           ${DOCKER_REPO_PREFIX}/eclipse:neon
 
     #    exit 0;
 }
@@ -173,7 +175,7 @@ gimp() {
            -v $HOME/Pictures:/root/Pictures \
            -v $HOME/Documents:/root/Documents \
            --name gimp \
-           fschl/gimp
+           ${DOCKER_REPO_PREFIX}/gimp
 
     exit 0;
 }
@@ -182,7 +184,7 @@ go() {
     docker run -i --rm \
            -v "$PWD":/usr/src/myapp \
            -w /usr/src/myapp \
-           fschl/golang-dev:latest go "$@"
+           ${DOCKER_REPO_PREFIX}/golang-dev:latest go "$@"
 }
 
 
@@ -198,7 +200,7 @@ icedove() {
            -v $HOME/.gnupg/:/root/.gnupg \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -e DISPLAY=unix$DISPLAY \
-           fschl/icedove:latest
+           ${DOCKER_REPO_PREFIX}/icedove:latest
 
     exit 0;
 }
@@ -216,10 +218,27 @@ inkscape() {
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -e DISPLAY=unix$DISPLAY \
            --net=host \
-           fschl/inkscape:latest
+           ${DOCKER_REPO_PREFIX}/inkscape:latest
 
     exit 0;
 }
+
+intelli_ult() {
+    #del_stopped intelli_ult
+
+    docker run -it \
+           --net host \
+           --name="intelli_ult" \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           -v $HOME/projects/java/IdeaProjects:/home/developer/IdeaProjects/ \
+           -v m2-local:/root/.m2 \
+           -v $HOME/.IntelliJIdea_ult/:/home/developer/.IntelliJIdea2016.2/ \
+           -p 8080:8080 \
+           ${DOCKER_REPO_PREFIX}/intellij-ult:latest
+
+}
+
 
 java() {
     local args=$@
@@ -247,7 +266,7 @@ latex() {
            --net host \
            -v $(pwd):/usr/src/latex \
            --workdir="/usr/src/latex" \
-           fschl/latex "$@"
+           ${DOCKER_REPO_PREFIX}/latex "$@"
 }
 
 libreoffice() {
@@ -263,7 +282,7 @@ libreoffice() {
            -e GDK_SCALE \
            -e GDK_DPI_SCALE \
            --name libreoffice \
-           fschl/libreoffice
+           ${DOCKER_REPO_PREFIX}/libreoffice
 
     exit 0;
 }
@@ -279,7 +298,7 @@ memo() {
            -v $HOME/.memo:/root/.memo \
            -e DISPLAY=$DISPLAY \
            -v /tmp/.X11-unix:/tmp/.X11-unix \
-           fschl/memo:latest
+           ${DOCKER_REPO_PREFIX}/memo:latest
 
     #exit 0;
 }
@@ -293,7 +312,7 @@ netbeans() {
            -v $HOME/.netbeans-docker:/home/developer/.netbeans \
            -v $HOME/projects/java/workspace:/home/developer/NetBeansProjects \
            -v $HOME/projects/java/workspace:/workspace \
-           fschl/netbeans:latest
+           ${DOCKER_REPO_PREFIX}/netbeans:latest
 }
 
 # start from a directory which contains a openvpn config file named 'config.ovpn'
@@ -308,7 +327,7 @@ openvpn() {
            --device /dev/net/tun:/dev/net/tun \
            --cap-add NET_ADMIN \
            -v "$PWD":/etc/openvpn \
-           fschl/openvpn:latest config.ovpn
+           ${DOCKER_REPO_PREFIX}/openvpn:latest config.ovpn
 }
 
 
@@ -321,7 +340,7 @@ pulseaudio() {
            -p 4713:4713 \
            --restart always \
            --name pulseaudio \
-           fschl/pulseaudio
+           ${DOCKER_REPO_PREFIX}/pulseaudio
 }
 
 # pulseaudio() {
@@ -335,7 +354,7 @@ pulseaudio() {
 #          -v /var/run/dbus:/var/run/dbus \
 #          -v /etc/machine-id:/etc/machine-id \
 #          --name pulseaudio \
-#          fschl/pulseaudio
+#          ${DOCKER_REPO_PREFIX}/pulseaudio
 # }
 
 rstudio(){
@@ -364,7 +383,7 @@ scenebuilder() {
            -v /tmp/.X11-unix:/tmp/.X11-unix \
            -e DISPLAY=unix$DISPLAY \
            -v $HOME/projects/java/workspace:/home/eclipse/workspace \
-           fschl/scenebuilder:latest "$@"
+           ${DOCKER_REPO_PREFIX}/scenebuilder:latest "$@"
 
     exit 0;
 }
@@ -384,7 +403,7 @@ skype() {
            --device /dev/snd \
            --name skype \
            --net host \
-           fschl/skype
+           ${DOCKER_REPO_PREFIX}/skype
 
     exit 0;
 }
@@ -400,7 +419,7 @@ torbrowser() {
            -e GDK_DPI_SCALE \
            --device /dev/snd \
            --name torbrowser \
-           fschl/tor-browser
+           ${DOCKER_REPO_PREFIX}/tor-browser
 
     exit 0;
 }
@@ -417,7 +436,7 @@ transmission() {
            -p 51413:51413 \
            -p 51413:51413/udp \
            --name transmission \
-           fschl/transmission
+           ${DOCKER_REPO_PREFIX}/transmission
 }
 
 wireshark() {
