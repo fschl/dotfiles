@@ -93,15 +93,22 @@ bindsym $mod+a focus parent # focus the parent container
 bindsym $mod+p exec xrandr-toggle
 
 # manage workspaces
-set $WS1 "1 ☀"
+# http://fontawesome.io/cheatsheet/
+set $WS1 "1 &#xf0ac;"
+# fa-globe
 # http://unicode-table.com/en/2328/ KEYBOARD
-set $WS2 "2 emacs"
-set $WS3 "3 term"
-# http://unicode-table.com/en/234C/
-set $WS4 "4 ⍌"
-set $WS5 "5 IDE"
-set $WS8 "8 pass"
-set $WS9 "9 misc"
+set $WS2 "2 &#xf0d0;"
+# fa-magic
+set $WS3 "3 &#xf120;"
+# fa-terminal
+set $WS4 "4 &#xf0e0;"
+# fa-envelope
+set $WS5 "5 &#xf121;"
+# fa-code
+set $WS8 "8 &#xf084;"
+# fa-key
+set $WS9 "9 &#xf17c;"
+# fa-linux
 
 assign [class="^Iceweasel$"] $WS1
 assign [class="^Eclipse$"] $WS5
@@ -197,12 +204,14 @@ bar {
     # urgent_workspace #d33682 #d33682 #fdf6e3
     # }
     output LVDS-1
+    font pango:DejaVu Sans Mono, FontAwesome 8
     status_command i3status --config ~/.i3/status.conf
 }
 
 bar {
     output VGA-1
     output DP-1
+    output HDMI-1
     status_command i3status --config ~/.i3/status_small.conf
 }
 
