@@ -32,7 +32,6 @@ base_applications() {
     apt-get upgrade
 
     apt-get install -y \
-            alsa-utils \
             apt-transport-https \
             automake \
             bash-completion \
@@ -42,9 +41,11 @@ base_applications() {
             cmake \
             coreutils \
             curl \
+            dnsutils \
             gcc \
             git \
             gnupg \
+            gnupg2 \
             gnupg-agent \
             gnupg-curl \
             grep \
@@ -54,12 +55,13 @@ base_applications() {
             make \
             mount \
             net-tools \
-            pulseaudio \
             rsync \
             ssh \
             sudo \
             tar \
+            tmux \
             tree \
+            unattended-upgrades \
             xclip \
             zip \
             --no-install-recommends
@@ -89,13 +91,17 @@ install_i3() {
     echo "update and installing i3wm and some tools..."
     apt-get update
     apt-get install -y \
+            alsa-utils \
             feh \
             fswebcam \
             i3 \
             i3lock \
             i3status \
+            keepass2 \
+            pulseaudio \
             rxvt-unicode-256color \
             scrot \
+            shotwell \
             slim \
             xorg \
             --no-install-recommends
@@ -155,22 +161,22 @@ install_golang() {
 
     # subshell because we `cd`
     (
-    curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
+        curl -sSL "https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz" | sudo tar -v -C /usr/local -xz
     )
 
     # get commandline tools
     (
-    set -x
-    set +e
-    go get github.com/golang/lint/golint
-    go get golang.org/x/tools/cmd/cover
-    go get golang.org/x/review/git-codereview
-    go get golang.org/x/tools/cmd/goimports
-    go get golang.org/x/tools/cmd/gorename
+        set -x
+        set +e
+        go get github.com/golang/lint/golint
+        go get golang.org/x/tools/cmd/cover
+        go get golang.org/x/review/git-codereview
+        go get golang.org/x/tools/cmd/goimports
+        go get golang.org/x/tools/cmd/gorename
 
-    go get github.com/FiloSottile/vendorcheck
-    go get github.com/nsf/gocode
-    #done
+        go get github.com/FiloSottile/vendorcheck
+        go get github.com/nsf/gocode
+        #done
     )
 }
 
