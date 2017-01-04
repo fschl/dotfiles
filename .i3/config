@@ -229,7 +229,6 @@ bar {
 exec --no-startup-id xrandr --output LVDS1 --left-of VGA1 --auto
 exec --no-startup-id xrandr --output VGA1 --auto
 exec --no-startup-id i3-msg 'workspace $WS1; exec iceweasel;'
-exec --no-startup-id i3-msg 'workspace $WS2; exec emacs24'
+exec --no-startup-id i3-msg 'workspace $WS2; exec emacs25'
 exec --no-startup-id i3-msg 'workspace $WS3; exec urxvt; exec urxvt'
-exec --no-startup-id i3-msg 'workspace $WS8; exec keepass2'
 exec --no-startup-id i3-msg 'workspace $WS9; exec urxvt;'
