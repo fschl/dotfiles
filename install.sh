@@ -71,10 +71,44 @@ base_applications() {
     apt-get autoclean
     apt-get clean
 
-    echo "... setting capslock to control"
-    sed -i "s/^XKBOPTIONS=.*/XKBOPTIONS=\"ctrl:nocaps\"/" /etc/default/keyboard
+}
+
+install_server_base() {
+
+    echo "update and installing server base tools..."
+    apt-get update
+    apt-get install -y \
+            fail2ban \
+            logwatch \
+            unattended-upgrades \
+            --no-install-recommends
+
+    echo "... DONE... cleaning up\n\n"
+    apt-get autoremove
+    apt-get autoclean
+    apt-get clean
+
+
+    echo "setting up logwatch..."
+    cat <<-EOF > /etc/cron.daily/00logwatch
+/usr/sbin/logwatch --output mail --mailto you@example.com --detail high
+
+EOF
+    echo " ... DONE"
+
+    # TODO: is this really needed?
+    echo "set unattended upgrades..."
+    cat <<-EOF > /etc/apt/apt.conf.d/10periodic
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "7";
+APT::Periodic::Unattended-Upgrade "1";
+
+EOF
+    echo " ... DONE"
 
 }
+
 
 no_suspend() {
     # https://wiki.debian.org/SystemdSuspendSedation
@@ -82,9 +116,13 @@ no_suspend() {
     sudo sed -i "s/HandleLidSwitchDocked=.*/HandleLidSwitchDocked=ignore/" /etc/systemd/logind.conf
     sudo sed -i "s/IdleActionSec=.*/IdleActionSec=90min/" /etc/systemd/logind.conf
 
+    # turn off screen blanking
+    # https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=18200&sid=135af53eb82496bc64f4c0eefbc86d2c&start=25
+    # http://raspberrypi.stackexchange.com/questions/752/how-do-i-prevent-the-screen-from-going-blank
+    xset s noblank
+
     sudo systemctl restart systemd-logind.service
 }
-
 
 install_i3() {
 
@@ -92,6 +130,7 @@ install_i3() {
     apt-get update
     apt-get install -y \
             alsa-utils \
+            emacs25 \
             feh \
             fswebcam \
             i3 \
@@ -232,31 +271,35 @@ get_public_go_projects() {
     )
 }
 
-source get_private_stuff.sh
+if [ -f /tmp/foo.txt ]; then
+    source get_private_stuff.sh
+fi
 
 main() {
     local cmd=$1
 
     if [[ -z "$cmd" ]]; then
+        echo "Usage: \n base | desktop | server | dotfiles | compose | go"
+    fi
+
+    if [[ $cmd == "compose" ]]; then
+        install_compose
+    elif [[ $cmd == "base" ]]; then
         apt_sources
 
         base_applications
 
         install_docker
-    fi
-
-    if [[ $cmd == "compose" ]]; then
-        install_compose
     elif [[ $cmd == "dotfiles" ]]; then
         get_dotfiles
     elif [[ $cmd == "go" ]]; then
         install_golang
     elif [[ $cmd == "goprojects" ]]; then
         get_public_go_projects
-    elif [[ $cmd == "i3" ]]; then
+    elif [[ $cmd == "server" ]]; then
+        install_server_base
+    elif [[ $cmd == "desktop" ]]; then
         install_i3
-    elif [[ $cmd == "odl" ]]; then
-        get_odl_projects
     fi
 
 }
