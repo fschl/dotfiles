@@ -269,6 +269,18 @@ latex() {
            ${DOCKER_REPO_PREFIX}/latex "$@"
 }
 
+pdflatex() {
+    local file=$@
+    local cur_dir=$(pwd)
+    local FILENAME=${file%%.*}
+
+    latex bash -c "latex $file; latex $file; pdflatex $file"
+
+    sudo rm $FILENAME.aux $FILENAME.dvi $FILENAME.out
+
+    sudo chown ${DOCKER_REPO_PREFIX}:${DOCKER_REPO_PREFIX} $FILENAME.pdf
+}
+
 libreoffice() {
     del_stopped libreoffice
 
