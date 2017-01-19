@@ -6,6 +6,7 @@ default: install
 
 install: all
 
+# TODO: remove i3 config from default setup. we don't need this on servers
 dotfiles:
 # add aliases for dotfiles
 	for file in $(shell find $(CURDIR) -name ".*" -not -name ".gitignore" -not -name ".git" -not -name ".*.swp"); do \
