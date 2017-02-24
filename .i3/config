@@ -228,6 +228,7 @@ bar {
 # startup programs
 exec amixer set Master 1+ off
 exec amixer set Master 54
+exec --no-startup-id nm-applet
 exec --no-startup-id xrandr --output LVDS1 --left-of VGA1 --auto
 exec --no-startup-id xrandr --output VGA1 --auto
 exec --no-startup-id i3-msg 'workspace $WS1; exec iceweasel;'
