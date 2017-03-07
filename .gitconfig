@@ -10,6 +10,14 @@
     # Include summaries of merged commits in newly created merge commit messages
     log = true
 
+[gitlab]
+    user = fschl
+
+    [merge]
+
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
+
 [diff]
 
     # Detect copies as well as renames
