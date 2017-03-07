@@ -59,10 +59,10 @@ base_applications() {
             ssh \
             sudo \
             tar \
+            tinc \
             tmux \
             tree \
-            unattended-upgrades \
-            xclip \
+            vim \
             zip \
             --no-install-recommends
 
@@ -87,7 +87,6 @@ install_server_base() {
     apt-get autoremove
     apt-get autoclean
     apt-get clean
-
 
     echo "setting up logwatch..."
     cat <<-EOF > /etc/cron.daily/00logwatch
@@ -130,6 +129,7 @@ install_i3() {
     apt-get update
     apt-get install -y \
             alsa-utils \
+            clipit \
             emacs25 \
             feh \
             fswebcam \
@@ -142,6 +142,7 @@ install_i3() {
             scrot \
             shotwell \
             slim \
+            xclip \
             xorg \
             --no-install-recommends
 
