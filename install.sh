@@ -178,6 +178,8 @@ install_docker() {
     curl -SL https://get.docker.com/builds/Linux/x86_64/docker-$VERS.tgz.sha256 \
          -o /tmp/docker.tgz.sha256
 
+    cd /tmp
+
     if [ ! $(cat /tmp/docker.tgz.sha256 | sha256sum -c -) ]; then
         echo "... checksum failed... stopping"
         exit 1;
@@ -191,28 +193,16 @@ install_docker() {
     sudo groupadd docker
     sudo adduser -aG docker "$USERNAME"
 
-    #     curl -sSL https://get.docker.com/ | sh
-
-    #     sudo apt-get update
-    #     sudo apt-get install apt-transport-https ca-certificates gnupg2
-    #     sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-
-    #     cat <<-EOF > /etc/apt/sources.list.d/docker.list
-    # deb https://apt.dockerproject.org/repo $REPO main
-    # EOF
-
-    #     apt-get update
-    #     apt-cache policy docker-engine
-    #     apt-get update && apt-get install docker-engine
 }
 
 install_compose() {
 
+    # https://github.com/docker/compose/releases
     VERS="1.11.2"
     echo "installing docker-compose $VERS ... curling from github"
 
-    curl -SL https://github.com/docker/compose/releases/download/$VERS/docker-compose-Linux-x86_64 \
-         -o /usr/bin/docker-compose
+    curl -SL "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
     chmod +x /usr/bin/docker-compose
 
     echo "... done"
