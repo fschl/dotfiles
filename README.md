@@ -16,10 +16,11 @@ strongly inspired by awesome work by https://github.com/jessfraz
 - https://blog.g3rt.nl/upgrade-your-ssh-keys.html
 - https://stribika.github.io/2015/01/04/secure-secure-shell.html
 - https://wiki.mozilla.org/Security/Guidelines/OpenSSH#OpenSSH_client
+- see `/etc/ssh/ssh_config` and `.ssh/config`
 
 add this to `~/.ssh/config`:
 
-```
+```bash
 # Ensure KnownHosts are unreadable if leaked - it is otherwise easier to know which hosts your keys have access to.
 HashKnownHosts yes
 # Host keys the client accepts - order here is honored by OpenSSH
@@ -58,6 +59,6 @@ keyid-format 0xlong
 
 ## TODO
 
-- explain setup, ideas, practises
-- add HOWTO
-- seperate sources.list setup for server/desktop
+- [ ] explain setup, ideas, practises
+- [ ] add HOWTO
+- [ ] seperate sources.list setup for server/desktop
