@@ -152,20 +152,55 @@ install_i3() {
     apt-get clean
 
     no_suspend
+
+    echo "... setting capslock to control"
+    sed -i "s/^XKBOPTIONS=.*/XKBOPTIONS=\"ctrl:nocaps\"/" /etc/default/keyboard
+
 }
 
 install_docker() {
 
-    echo "installing docker from get.docker.com | sh..."
-    adduser -aG docker "$USERNAME"
+    # https://docs.docker.com/engine/installation/binaries/#install-static-binaries
+    VERS="17.03.0-ce"
+    echo "installing docker binary Version $VERS ..."
+    # https://github.com/tianon/cgroupfs-mount/blob/master/cgroupfs-mount
 
-    curl -sSL https://get.docker.com/ | sh
+    curl -SL https://get.docker.com/builds/Linux/x86_64/docker-$VERS.tgz \
+         -o /tmp/docker.tgz
+    curl -SL https://get.docker.com/builds/Linux/x86_64/docker-$VERS.tgz.sha256 \
+         -o /tmp/docker.tgz.sha256
 
+    if [ ! $(cat /tmp/docker.tgz.sha256 | sha256sum -c -) ]; then
+        echo "... checksum failed... stopping"
+        exit 1;
+    fi
+
+    tar -xvzf docker.tgz
+    mv docker/* /usr/bin
+    rm /tmp/docker.tgz
+    rm /tmp/docker.tgz.sha256
+
+    sudo groupadd docker
+    sudo adduser -aG docker "$USERNAME"
+
+    #     curl -sSL https://get.docker.com/ | sh
+
+    #     sudo apt-get update
+    #     sudo apt-get install apt-transport-https ca-certificates gnupg2
+    #     sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+
+    #     cat <<-EOF > /etc/apt/sources.list.d/docker.list
+    # deb https://apt.dockerproject.org/repo $REPO main
+    # EOF
+
+    #     apt-get update
+    #     apt-cache policy docker-engine
+    #     apt-get update && apt-get install docker-engine
 }
 
 install_compose() {
 
-    VERS="1.7.1"
+    VERS="1.11.2"
     echo "installing docker-compose $VERS ... curling from github"
 
     curl -SL https://github.com/docker/compose/releases/download/$VERS/docker-compose-Linux-x86_64 \
@@ -223,7 +258,7 @@ install_golang() {
 get_public_go_projects() {
 
     (
-        aliases=( Masterminds/glide onsi/ginkgo onsi/gomega Compufreak345/alice Compufreak345/manners Compufreak345/go-i18n Compufreak345/excess-router Compufreak345/leaflet-map Compufreak345/jsencrypt gogits/gogs fschl/sql-migrate fschl/CompileDaemon )
+        aliases=( Masterminds/glide onsi/ginkgo onsi/gomega gogits/gogs fschl/CompileDaemon )
 
         for project in "${aliases[@]}"; do
             owner=$(dirname "$project")
@@ -272,7 +307,7 @@ get_public_go_projects() {
     )
 }
 
-if [ -f /tmp/foo.txt ]; then
+if [ -f "./get_private_stuff.sh" ]; then
     source get_private_stuff.sh
 fi
 
