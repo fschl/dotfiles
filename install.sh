@@ -28,65 +28,70 @@ base_applications() {
 
     echo "update and installing baseapps..."
 
-    apt-get update
-    apt-get upgrade
+    apt update
+    apt upgrade
 
-    apt-get install -y \
-            apt-transport-https \
-            automake \
-            bash-completion \
-            bmon \
-            bzip2 \
-            ca-certificates \
-            cmake \
-            coreutils \
-            curl \
-            dnsutils \
-            gcc \
-            git \
-            gnupg \
-            gnupg2 \
-            gnupg-agent \
-            gnupg-curl \
-            grep \
-            htop \
-            iotop \
-            locales \
-            make \
-            mount \
-            net-tools \
-            rsync \
-            ssh \
-            sudo \
-            tar \
-            tinc \
-            tmux \
-            tree \
-            vim \
-            zip \
-            --no-install-recommends
+    DEBIAN_FRONTEND=noninteractive
+
+    apt install -y \
+        apt-transport-https \
+        automake \
+        bash-completion \
+        bmon \
+        bzip2 \
+        ca-certificates \
+        cmake \
+        coreutils \
+        curl \
+        dnsutils \
+        gcc \
+        git \
+        gnupg \
+        gnupg2 \
+        gnupg-agent \
+        gnupg-curl \
+        grep \
+        htop \
+        iotop \
+        locales \
+        make \
+        mount \
+        net-tools \
+        rsync \
+        ssh \
+        sudo \
+        tar \
+        tinc \
+        tmux \
+        tree \
+        vim \
+        zip \
+        --no-install-recommends
 
     echo "... DONE... cleaning up\n\n"
-    apt-get autoremove
-    apt-get autoclean
-    apt-get clean
+    apt autoremove
+    apt autoclean
+    apt clean
 
 }
 
 install_server_base() {
 
     echo "update and installing server base tools..."
-    apt-get update
-    apt-get install -y \
-            fail2ban \
-            logwatch \
-            unattended-upgrades \
-            --no-install-recommends
+
+    DEBIAN_FRONTEND=noninteractive
+
+    apt update
+    apt install -y \
+        fail2ban \
+        logwatch \
+        unattended-upgrades \
+        --no-install-recommends
 
     echo "... DONE... cleaning up\n\n"
-    apt-get autoremove
-    apt-get autoclean
-    apt-get clean
+    apt autoremove
+    apt autoclean
+    apt clean
 
     echo "setting up logwatch..."
     cat <<-EOF > /etc/cron.daily/00logwatch
@@ -126,30 +131,33 @@ no_suspend() {
 install_i3() {
 
     echo "update and installing i3wm and some tools..."
-    apt-get update
-    apt-get install -y \
-            alsa-utils \
-            clipit \
-            emacs25 \
-            feh \
-            fswebcam \
-            i3 \
-            i3lock \
-            i3status \
-            keepass2 \
-            pulseaudio \
-            rxvt-unicode-256color \
-            scrot \
-            shotwell \
-            slim \
-            xclip \
-            xorg \
-            --no-install-recommends
+
+    DEBIAN_FRONTEND=noninteractive
+
+    apt update
+    apt install -y \
+        alsa-utils \
+        clipit \
+        emacs25 \
+        feh \
+        fswebcam \
+        i3 \
+        i3lock \
+        i3status \
+        keepass2 \
+        pulseaudio \
+        rxvt-unicode-256color \
+        scrot \
+        shotwell \
+        slim \
+        xclip \
+        xorg \
+        --no-install-recommends
 
     echo "... DONE... cleaning up\n\n"
-    apt-get autoremove
-    apt-get autoclean
-    apt-get clean
+    apt autoremove
+    apt autoclean
+    apt clean
 
     no_suspend
 
@@ -325,6 +333,10 @@ main() {
 
         base_applications
 
+        install_docker
+
+        install_compose
+    elif [[ $cmd == "docker" ]]; then
         install_docker
     elif [[ $cmd == "dotfiles" ]]; then
         get_dotfiles
