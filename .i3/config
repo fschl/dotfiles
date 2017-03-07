@@ -213,6 +213,7 @@ bar {
     output DP-1
     output HDMI-1
     status_command i3status --config ~/.i3/status_small.conf
+    tray_output LVDS1
 }
 
 # auto run commands
@@ -231,7 +232,7 @@ exec amixer set Master 54
 exec --no-startup-id nm-applet
 exec --no-startup-id xrandr --output LVDS1 --left-of VGA1 --auto
 exec --no-startup-id xrandr --output VGA1 --auto
+exec --no-startup-id clipit
 exec --no-startup-id i3-msg 'workspace $WS1; exec iceweasel;'
 exec --no-startup-id i3-msg 'workspace $WS2; exec emacs25'
 exec --no-startup-id i3-msg 'workspace $WS3; exec urxvt;'
-exec --no-startup-id i3-msg 'workspace $WS9; exec urxvt;'
