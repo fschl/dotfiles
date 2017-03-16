@@ -213,18 +213,20 @@ install_compose() {
 get_dotfiles() {
 
     (
-        git clone https://github.com/fschl/dotfiles.git "/home/$USERNAME/dotfiles"
-        cd "/home/$USERNAME/dotfiles" && make
+        # git clone https://gitlab.com/fschl/dotfiles.git "/home/$USERNAME/dotfiles"
+        # cd "/home/$USERNAME/dotfiles" && make
 
-        git clone https://github.com/fschl/dockerfiles.git "/home/$USERNAME/dockerfiles"
+        # TODO: propbably dont really need the whole repo
+        git clone https://gitlab.com/fschl/dockerfiles.git "/home/$USERNAME/dockerfiles"
 
-        git clone https://github.com/fschl/.emacs.d.git "/home/$USERNAME/.emacs.d"
+        # TODO: on the server? really?
+        git clone https://gitlab.com/fschl/.emacs.d.git "/home/$USERNAME/.emacs.d"
     )
 }
 
 # install/update golang from source
 install_golang() {
-    export GO_VERSION=1.6.2
+    export GO_VERSION=1.7.4
     export GO_SRC=/usr/local/go
 
     # if we are passing the version
@@ -295,7 +297,7 @@ get_public_go_projects() {
 
         # create symlinks from personal projects to
         # the ${HOME} directory
-        projectsdir=$GOPATH/src/github.com/fschl
+        projectsdir=$GOPATH/src/gitlab.com/fschl
         base=$(basename "$projectsdir")
         find "$projectsdir" -maxdepth 1 -not -name "$base" -type d -print0 | while read -d '' -r dir; do
             base=$(basename "$dir")
