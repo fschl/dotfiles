@@ -110,10 +110,10 @@ set $WS8 "8 &#xf084;"
 set $WS9 "9 &#xf17c;"
 # fa-linux
 
-assign [class="^Iceweasel$"] $WS1
+assign [class="^Firefox$"] $WS1
 assign [class="^Eclipse$"] $WS5
 assign [class=".*\ -\ Oracle\ VM\ Virtualbox$"] $WS5
-assign [class="^Icedove$"] $WS4
+assign [class="^Thunderbird$"] $WS4
 assign [class=".*KeePass.*"] $WS8
 
 workspace $WS1 output VGA-1
