@@ -1,5 +1,8 @@
 # fschl dotfiles
 
+
+**Notice:** this repository is not maintained on Github! For a more recent version check https://gitlab.com/fschl/dotfiles
+
 some stuff that makes my linux life more portable and comfortable.
 for debian, or debian-based distros. using i3wm.org on the desktop.
 also uses containers.
