@@ -122,6 +122,21 @@ chrome() {
     #--proxy-server="$proxy" --host-resolver-rules="$map" "$args"
 }
 
+clion() {
+    #del_stopped intelli_ult
+
+    docker run -it \
+           --net host \
+           --name="clion" \
+           -v /tmp/.X11-unix:/tmp/.X11-unix \
+           -e DISPLAY=unix$DISPLAY \
+           -v $HOME/.CLion2016.3/:/home/developer/.CLion2016.3/ \
+           -v $HOME/.clion_config/:/home/developer/clion-2016.3.3/ \
+           -v $HOME/projects/cpp/clProjects:/home/developer/CLionProjects/ \
+           -p 8080:8080 \
+           ${DOCKER_REPO_PREFIX}/clion:latest
+}
+
 eclipse() {
     del_stopped eclipse
 
